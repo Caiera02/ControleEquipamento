@@ -33,7 +33,7 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
-
+#Departamento
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nome')
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
@@ -77,6 +77,13 @@ class Branch(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
     
+    class Meta:
+        ordering = ['name']    
+        verbose_name = 'Filial'
+    
+    def __str__(self):
+        return self.name
+
 #Controle do notebooks
 class Controle(models.Model):
     name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
@@ -87,8 +94,8 @@ class Controle(models.Model):
     laptop = models.ForeignKey(Product, on_delete=models.PROTECT, 
                                related_name='controls',verbose_name='Notebook')
     
-    brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
-                              related_name='controls', verbose_name='Marca')
+    #brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
+                          #    related_name='controls', verbose_name='Marca')
     
     delivery = models.DateTimeField(auto_now_add=True, verbose_name='Entregue em')
     
