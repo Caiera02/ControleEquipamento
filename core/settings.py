@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'grappelli',
+    #'grappelli',
     'jazzmin',
 
     'django.contrib.admin',
@@ -131,65 +131,98 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    'site_title': 'SGP',
+    'site_title': 'Controle de equipamento',
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    'site_header': 'SGP',
+    'site_header': 'Controle de equipamento',
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    'site_brand': 'SGP',
+    'site_brand': 'Controle de equipamento',
 
     'icons': {
         'auth': 'fas fa-users-cog',
         'auth.user': 'fas fa-user',
         'auth.Group': 'fas fa-users',
+        'products.Controle': 'fas fa-laptop',
         'products.Category': 'fas fa-object-group',
         'products.Brand': 'fas fa-copyright',
         'products.Product': 'fas fa-box',
     },
 
     # Welcome text on the login screen
-    'welcome_sign': 'Bem-vindo(a) ao SGP',
+    'welcome_sign': 'Bem-vindo(a) ao System Caio',
 
     # Copyright on the footer
-    'copyright': 'PycodeBR LTDA',
+    'copyright': 'Caiera LTDA',
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
     'search_model': ['products.Product',],
 
     # Whether to show the UI customizer on the sidebar
-    'show_ui_builder': True,
+    'show_ui_builder': False,
 }
 
+# JAZZMIN_UI_TWEAKS = {
+#     'navbar_small_text': False,
+#     'footer_small_text': False,
+#     'body_small_text': False,
+#     'brand_small_text': False,
+#     'brand_colour': False,
+#     'accent': 'accent-primary',
+#     'navbar': 'navbar-white navbar-light',
+#     'no_navbar_border': False,
+#     'navbar_fixed': False,
+#     'layout_boxed': False,
+#     'footer_fixed': False,
+#     'sidebar_fixed': False,
+#     'sidebar': 'sidebar-dark-primary',
+#     'sidebar_nav_small_text': False,
+#     'sidebar_disable_expand': False,
+#     'sidebar_nav_child_indent': False,
+#     'sidebar_nav_compact_style': False,
+#     'sidebar_nav_legacy_style': False,
+#     'sidebar_nav_flat_style': False,
+#     'theme': 'minty',
+#     'dark_mode_theme': None,
+#     'button_classes': {
+#         'primary': 'btn-outline-primary',
+#         'secondary': 'btn-outline-secondary',
+#         'info': 'btn-info',
+#         'warning': 'btn-warning',
+#         'danger': 'btn-danger',
+#         'success': 'btn-success'
+#     }
+# }
+
 JAZZMIN_UI_TWEAKS = {
-    'navbar_small_text': False,
-    'footer_small_text': False,
-    'body_small_text': False,
-    'brand_small_text': False,
-    'brand_colour': False,
-    'accent': 'accent-primary',
-    'navbar': 'navbar-white navbar-light',
-    'no_navbar_border': False,
-    'navbar_fixed': False,
-    'layout_boxed': False,
-    'footer_fixed': False,
-    'sidebar_fixed': False,
-    'sidebar': 'sidebar-dark-primary',
-    'sidebar_nav_small_text': False,
-    'sidebar_disable_expand': False,
-    'sidebar_nav_child_indent': False,
-    'sidebar_nav_compact_style': False,
-    'sidebar_nav_legacy_style': False,
-    'sidebar_nav_flat_style': False,
-    'theme': 'minty',
-    'dark_mode_theme': None,
-    'button_classes': {
-        'primary': 'btn-outline-primary',
-        'secondary': 'btn-outline-secondary',
-        'info': 'btn-info',
-        'warning': 'btn-warning',
-        'danger': 'btn-danger',
-        'success': 'btn-success'
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-info",
+    "accent": "accent-primary",
+    "navbar": "navbar-info navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": True,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "cyborg",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
     }
 }
