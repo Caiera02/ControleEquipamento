@@ -1,7 +1,12 @@
 import csv
 from django.http import HttpResponse
 from django.contrib import admin
-from .models import Brand, Category, Product
+from .models import Cooperado,Brand, Category, Product, Branch, Controle
+
+@admin.register(Cooperado)
+class CooperadoAdmin(admin.ModelAdmin):
+    list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
+    search_fields = ('name' ,)
 
 
 @admin.register(Brand)
@@ -23,9 +28,8 @@ class BrandAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
-
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class DepartamentoAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active', 'description', 'created_at', 'updated_at')
     search_fields = ('name',)
     list_filter = ('is_active',)
@@ -43,11 +47,11 @@ class CategoryAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
-
+#Maquina, Celular etc
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'brand', 'category', 'price',
-                    'is_active', 'created_at', 'updated_at')
+    list_display = ('title', 'brand', 'category','processor','memory_ram','storage','description',
+                    'is_active', 'created_at')
     search_fields = ('title', 'brand__name', 'category__name')
     list_filter = ('is_active', 'brand', 'category')
 
@@ -65,3 +69,13 @@ class ProductAdmin(admin.ModelAdmin):
 
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
+    
+@admin.register(Branch)# Filiais
+class BranchAdmin(admin.ModelAdmin):
+    list_display = ('name','created_at','updated_at',)
+    search_fields = ('name',)
+
+@admin.register(Controle)
+class ControleAdmin(admin.ModelAdmin):
+    list_display = ('name','laptop','branch','delivery','description','created_at',)
+    search_fields = ('name',)
