@@ -46,6 +46,7 @@ class DepartamentoAdmin(admin.ModelAdmin):
 
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
+    
 
 #Maquina, Celular etc
 @admin.register(Product)
