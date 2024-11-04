@@ -160,7 +160,7 @@ JAZZMIN_SETTINGS = {
     'search_model': ['products.Product',],
 
     # Whether to show the UI customizer on the sidebar
-    'show_ui_builder': False, # Alteração das cores do layout
+    'show_ui_builder': True, # Alteração das cores,layout etc
 }
 
 # JAZZMIN_UI_TWEAKS = {
