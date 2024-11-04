@@ -1,0 +1,5 @@
+# Ignora a pasta chamada venv
+/venv
+
+#Ignorando arquivos que termina com .sqlite3 -> 
+*.sqlite3
