@@ -1,7 +1,7 @@
 import csv
 from django.http import HttpResponse
 from django.contrib import admin
-from .models import Cooperado,Brand, Category, Product, Branch, Controle
+from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone
 
 @admin.register(Cooperado)
 class CooperadoAdmin(admin.ModelAdmin):
@@ -79,3 +79,7 @@ class BranchAdmin(admin.ModelAdmin):
 class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','branch','delivery','description','created_at',)
     search_fields = ('name',)
+
+@admin.register(Phone)
+class PhoneAdmin(admin.ModelAdmin):
+    list_display = ('title',)
