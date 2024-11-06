@@ -10,7 +10,7 @@ class Cooperado(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
-    
+
     class Meta:
         ordering = ['name']
         verbose_name = 'Cooperado'
@@ -47,22 +47,19 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
-# Maquina, Celulares etc....    
+
+
+# Maquinas
 class Product(models.Model):
     #name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,related_name='products', verbose_name='Nome')
     title = models.CharField(max_length=100, verbose_name='Título')
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='products', verbose_name='Marca')
-
     processor = models.CharField(max_length=10, verbose_name='Processador')
     memory_ram = models.CharField(max_length=10, verbose_name='Memoria Ram')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')
-    
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='products', verbose_name='Departamento')
-    
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
@@ -76,48 +73,72 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-   
+
 class Branch(models.Model):
     name = models.TextField(null=True, blank=True, verbose_name='Nome')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
-    
+
     class Meta:
-        ordering = ['name']    
+        ordering = ['name']
         verbose_name = 'Filial'
-    
+
     def __str__(self):
         return self.name
 
-#Controle do notebooks
+#Celulares
+class Phone (models.Model):
+    title = models.CharField(max_length=100, verbose_name='Nome')
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
+                              related_name='phon', verbose_name='Marca')
+    storage = models.CharField(max_length=10, verbose_name='Armazenamento')
+    imei= models.CharField(max_length=30,verbose_name='IMEI')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+                                 related_name='phone', verbose_name='Departamento')
+    is_termo_active = models.BooleanField(default=True, verbose_name= 'Assinado')
+    is_termo_inactive = models.BooleanField(default=False, verbose_name= 'Não assinou')
+    is_active = models.BooleanField(default=True, verbose_name='Ativo')
+    last_user = models.ForeignKey(Cooperado,on_delete=models.PROTECT,
+                                 related_name='phone', verbose_name='Ultimo Usuario')
+    description = models.TextField(null=True, blank=True, verbose_name='Descrição')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Phone'
+
+    def __str__(self):
+        return self.title
+
+    #Controle do notebooks pelo nome do usuario
 class Controle(models.Model):
     name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Nome')
     branch = models.ForeignKey(Branch, on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Filial')
-    
-    laptop = models.ForeignKey(Product, on_delete=models.PROTECT, 
+    phones = models.ForeignKey(Phone,on_delete= models.PROTECT,
+                            related_name='controls', verbose_name='Celular' )
+    laptop = models.ForeignKey(Product, on_delete=models.PROTECT,
                                related_name='controls',verbose_name='Notebook')
-    
+
     #brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                           #    related_name='controls', verbose_name='Marca')
-    
+
     delivery = models.DateTimeField(auto_now_add=True, verbose_name='Entregue em')
-    
+
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='controls', verbose_name='Departamento')
-    
+
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     is_inactive = models.BooleanField(verbose_name='Inativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
-    
+
     class Meta:
         ordering = ['name']
         verbose_name = 'Controle'
 
     def __str__(self):
         return str(self.name)
-
-
