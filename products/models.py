@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django.db import models
 
 class Cooperado(models.Model):
@@ -143,7 +143,7 @@ class Controle(models.Model):
 
     def __str__(self):
         return str(self.name)
-=======
+
 from django.db import models
 
 class Cooperado(models.Model):
@@ -288,4 +288,4 @@ class Controle(models.Model):
 
     def __str__(self):
         return str(self.name)
->>>>>>> 48f28ba1265889b85509790e507e132464ed779d
+
