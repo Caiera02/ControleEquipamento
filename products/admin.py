@@ -75,11 +75,30 @@ class BranchAdmin(admin.ModelAdmin):
     list_display = ('name','created_at','updated_at',)
     search_fields = ('name',)
 
-@admin.register(Controle)
+@admin.register(Controle)#Controles de de notebooks e celular
 class ControleAdmin(admin.ModelAdmin):
-    list_display = ('name','laptop','branch','delivery','description','created_at',)
-    search_fields = ('name',)
+    list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
+    search_fields = ('phones',)
+    list_filter = ('phones', 'category')
 
-@admin.register(Phone)
+@admin.register(Phone)#Celulares
 class PhoneAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title','category','brand','imei',)
+    search_fields = ('tile',)
+    list_filter = ('is_active', 'brand', 'category')
+
+    def export_to_csv(self, request, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="products.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['nome', 'marca', 'categoria', 'preço',
+                         'ativo', 'descrição', 'criado em', 'atualizado em'])
+        for product in queryset:
+            writer.writerow([product.title, product.brand.name, product.imei.name,
+                             product.price, product.is_active, product.description,
+                             product.created_at, product.updated_at])
+        return response
+
+    export_to_csv.short_description = 'Exportar para CSV'
+    actions = [export_to_csv]

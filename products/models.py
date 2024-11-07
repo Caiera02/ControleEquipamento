@@ -109,7 +109,7 @@ class Phone (models.Model):
         verbose_name = 'Phone'
 
     def __str__(self): 
-        return self.title
+        return str(self.title)
     
     #Controle do notebooks pelo nome do usuario
 class Controle(models.Model):
