@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-knf(91&$v$*3^jcpat-z@&gp*ol#$ymt6he&9e9qv193qgrfdq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['caiera02.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -146,6 +146,9 @@ JAZZMIN_SETTINGS = {
         'products.Controle': 'fas fa-laptop',
         'products.Category': 'fas fa-object-group',
         'products.Brand': 'fas fa-copyright',
+        'products.Branch': 'fas fa-flag-usa',
+        'products.Cooperado': 'fas fa-users',
+        'products.Phone': 'fas fa-mobile',
         'products.Product': 'fas fa-box',
     },
 
@@ -157,10 +160,10 @@ JAZZMIN_SETTINGS = {
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
-    'search_model': ['products.Product',],
+    'search_model': ['products.Controle',],
 
     # Whether to show the UI customizer on the sidebar
-    'show_ui_builder': False, # Alteração das cores,layout etc
+    'show_ui_builder': True, # Alteração das cores,layout etc
 }
 
 # JAZZMIN_UI_TWEAKS = {

@@ -78,13 +78,16 @@ class BranchAdmin(admin.ModelAdmin):
 @admin.register(Controle)#Controles de de notebooks e celular
 class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
-    search_fields = ('phones',)
+    # result = Controle.objects.filter(cooperado__name__icontains="an")
+    #search_fields = ['cooperado__nome']
+    search_fields = ('description',)
     list_filter = ('phones', 'category')
+
 
 @admin.register(Phone)#Celulares
 class PhoneAdmin(admin.ModelAdmin):
     list_display = ('title','category','brand','imei',)
-    search_fields = ('tile',)
+    search_fields = ('title',)
     list_filter = ('is_active', 'brand', 'category')
 
     def export_to_csv(self, request, queryset):
