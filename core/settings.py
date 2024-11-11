@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+  
     'products',
 ]
 
@@ -160,10 +161,10 @@ JAZZMIN_SETTINGS = {
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
-    'search_model': ['products.Controle',],
+    'search_model': ['products.Product',],
 
     # Whether to show the UI customizer on the sidebar
-    'show_ui_builder': True, # Alteração das cores,layout etc
+    'show_ui_builder': False, # Alteração das cores,layout etc
 }
 
 # JAZZMIN_UI_TWEAKS = {
