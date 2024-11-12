@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
   
     'products',
+    'brilhaMais',
 ]
 
 # GRAPPELLI_ADMIN_TITLE = 'SGP'
