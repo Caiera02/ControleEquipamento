@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'products',
+    'brilhaMais',
 ]
 
 # GRAPPELLI_ADMIN_TITLE = 'SGP'
