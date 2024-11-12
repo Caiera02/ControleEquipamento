@@ -5,4 +5,5 @@ urlpatterns = [
     # path('grappelli/', include('grappelli.urls')),
 
     path('', admin.site.urls),
+
 ]
