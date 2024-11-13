@@ -2,14 +2,18 @@ import csv
 from django.http import HttpResponse
 from django.contrib import admin
 from openpyxl import Workbook
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone
 
+#Funcionarios
 @admin.register(Cooperado)
 class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
 
 
+#Marca
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active', 'description', 'created_at', 'updated_at')
@@ -29,6 +33,7 @@ class BrandAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
+#Departamento
 @admin.register(Category)
 class DepartamentoAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active', 'description', 'created_at', 'updated_at')
@@ -48,11 +53,15 @@ class DepartamentoAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
+class ProductResource(resources.ModelResource):
+    class Meta:
+        model = Product
+
 #Maquina, Celular etc
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'brand', 'category','processor','memory_ram','storage','description',
-                    'is_active', 'created_at')
+class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+    resource_classes = [ProductResource]
+    list_display = ('title', 'brand', 'category','processor','memory_ram','storage','description',)
     search_fields = ('title', 'brand__name', 'category__name',)
     list_filter = ('is_active', 'brand', 'category')
 
@@ -70,17 +79,24 @@ class ProductAdmin(admin.ModelAdmin):
 
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
-    
-@admin.register(Branch)# Filiais
-class BranchAdmin(admin.ModelAdmin):
+
+# Filiais   
+class BranchResource(resources.ModelResource):
+    class Meta:
+        model = Branch
+        
+
+@admin.register(Branch)
+class BranchAdmin(ImportExportModelAdmin):
+    resource_classes = [BranchResource]
     list_display = ('name','created_at','updated_at',)
     search_fields = ('name',)
 
-@admin.register(Controle)#Controles de de notebooks e celular
+#Controles de de notebooks e celular
+@admin.register(Controle)
 class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
-    #search_fields = ('controls__name')
-    search_fields= ('description',)
+    # search_fields= ('description',)
     list_filter = ('name','phones', 'category',)
 
     #importando para excel
@@ -91,7 +107,7 @@ class ControleAdmin(admin.ModelAdmin):
         worksheet.title = "Controle"
 
         # Adiciona o cabeçalho
-        headers = ['id','Nome', 'Computador', 'Telefone', 'Filial', 'Data da Entrega', 'Descrição', 'Data de Criação']
+        headers = ['id','Nome', 'Computador', 'Telefone', 'Filial', 'Data da Entrega', 'Horario da Entrega',]
         worksheet.append(headers)
 
         # Recupera os dados do modelo e preenche a planilha
@@ -103,7 +119,9 @@ class ControleAdmin(admin.ModelAdmin):
                 str (controle.laptop),
                 str (controle.phones),
                 str (controle.branch),
-              controle.delivery.strftime("%Y-%m-%d %H:%M:%S"),
+              controle.delivery.strftime("%Y-%m-%d"),
+              controle.delivery.strftime("%H:%M:%S"),
+              
                 # str (controle.description),
                 # controle.created_at,
             ])
@@ -117,8 +135,9 @@ class ControleAdmin(admin.ModelAdmin):
     
     export_controles_to_excel.short_description = 'Exportar para excel'
     actions = [export_controles_to_excel]
-
-@admin.register(Phone)#Celulares
+    
+#Celulares
+@admin.register(Phone)
 class PhoneAdmin(admin.ModelAdmin):
     list_display = ('title','category','brand','imei',)
     search_fields = ('title',)

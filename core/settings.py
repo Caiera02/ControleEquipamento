@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-  
+    
     'products',
     'brilhaMais',
+    'import_export',
 ]
 
 # GRAPPELLI_ADMIN_TITLE = 'SGP'
