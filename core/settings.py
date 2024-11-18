@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     
     'products',
-    'brilhaMais',
+    #'brilhaMais',
     'import_export',
 ]
 
@@ -144,9 +144,9 @@ JAZZMIN_SETTINGS = {
     
     # Logo to use for your site, must be present in static files, used for brand on top left
     #"site_logo": "jazzmin/img/image.png",
-
+    
     'icons': {
-        # 'auth': 'fas fa-users-cog',
+        'auth': 'fas fa-users-cog',
         'auth': 'fas fa-star',
         'auth.user': 'fas fa-user',
         'auth.Group': 'fas fa-users',
@@ -167,7 +167,7 @@ JAZZMIN_SETTINGS = {
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
-    'search_model': ['products.Product',],
+    #'search_model': ['products.Controle'], # Faz uma busca no model, fica no top do site
 
     # Whether to show the UI customizer on the sidebar
     'show_ui_builder': False, # Alteração das cores,layout etc

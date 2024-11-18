@@ -113,7 +113,7 @@ class Phone (models.Model):
     def __str__(self):
         return self.title
 
-    #Controle do notebooks pelo nome do usuario
+#Controle do notebooks pelo nome do usuario
 class Controle(models.Model):
     name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Nome')
@@ -123,9 +123,6 @@ class Controle(models.Model):
                             related_name='controls', verbose_name='Celular' )
     laptop = models.ForeignKey(Product, on_delete=models.PROTECT,
                                related_name='controls',verbose_name='Notebook')
-
-    #brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
-                          #    related_name='controls', verbose_name='Marca')
 
     delivery = models.DateTimeField(auto_now_add=True, verbose_name='Entregue em')
 

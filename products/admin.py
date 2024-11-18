@@ -96,8 +96,12 @@ class BranchAdmin(ImportExportModelAdmin):
 @admin.register(Controle)
 class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
-    # search_fields= ('description',)
-    list_filter = ('name','phones', 'category',)
+    #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__campo que quero buscar no outro Model
+    search_fields= ['name__name','laptop__title']
+    #list_filter = ('name','phones', 'category',)
+    # def get_search_results(self, request, queryset, search_term):
+    #     self.message_user(request, "Buscando por campos Nome Completo ou E-mail")
+    #     return super().get_search_results(request, queryset, search_term)
 
     #importando para excel
     def export_controles_to_excel(request,self,queryset):
@@ -121,9 +125,6 @@ class ControleAdmin(admin.ModelAdmin):
                 str (controle.branch),
               controle.delivery.strftime("%Y-%m-%d"),
               controle.delivery.strftime("%H:%M:%S"),
-              
-                # str (controle.description),
-                # controle.created_at,
             ])
 
         # Configura a resposta HTTP para o download
