@@ -93,15 +93,17 @@ class BranchAdmin(ImportExportModelAdmin):
     search_fields = ('name',)
 
 #Controles de de notebooks e celular
+class ControleResource(resources.ModelResource):
+    class Meta:
+        model = Controle
+
 @admin.register(Controle)
-class ControleAdmin(admin.ModelAdmin):
+class ControleAdmin(ImportExportModelAdmin): #(admin.ModelAdmin)
+    resource_classes= [ControleResource]
     list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title']
     #list_filter = ('name','phones', 'category',)
-    # def get_search_results(self, request, queryset, search_term):
-    #     self.message_user(request, "Buscando por campos Nome Completo ou E-mail")
-    #     return super().get_search_results(request, queryset, search_term)
 
     #importando para excel
     def export_controles_to_excel(request,self,queryset):
