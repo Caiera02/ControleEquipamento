@@ -4,7 +4,7 @@ from django.contrib import admin
 from openpyxl import Workbook
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone
+from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos
 
 #Funcionarios
 @admin.register(Cooperado)
@@ -84,7 +84,6 @@ class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para us
 class BranchResource(resources.ModelResource):
     class Meta:
         model = Branch
-        
 
 @admin.register(Branch)
 class BranchAdmin(ImportExportModelAdmin):
@@ -93,19 +92,16 @@ class BranchAdmin(ImportExportModelAdmin):
     search_fields = ('name',)
 
 #Controles de de notebooks e celular
-class ControleResource(resources.ModelResource):
-    class Meta:
-        model = Controle
-
 @admin.register(Controle)
-class ControleAdmin(ImportExportModelAdmin): #(admin.ModelAdmin)
-    resource_classes= [ControleResource]
+class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
-    #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__campo que quero buscar no outro Model
-    search_fields= ['name__name','laptop__title']
-    #list_filter = ('name','phones', 'category',)
+    
+    #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
+    search_fields= ['name__name','laptop__title',]
+    list_filter = ('name','category',)
 
     #importando para excel
+    
     def export_controles_to_excel(request,self,queryset):
     # Cria o workbook e a planilha
         workbook = Workbook()
@@ -161,3 +157,8 @@ class PhoneAdmin(admin.ModelAdmin):
 
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
+
+@admin.register(Perifericos)
+class PerifeicosAdmin(admin.ModelAdmin):
+    list_display = ('title','modelo','amount','brand','is_new','is_used',)
+    search_fields = ('title',)
