@@ -90,7 +90,7 @@ class Perifericos(models.Model):
     
     class Meta:
         ordering = ['title']
-        verbose_name = 'Perifericos'
+        verbose_name = 'Periferico'
 
     def __str__(self):
         return self.title
