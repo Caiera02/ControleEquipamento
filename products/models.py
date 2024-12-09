@@ -23,7 +23,7 @@ class Cooperado(models.Model):
 #Prestadores de serviço    
 class Prestador(models.Model):
     title = models.CharField(max_length=100, verbose_name='Nome')
-    mat= models.IntegerField( verbose_name= 'CNPJ')
+    mat= models.CharField(max_length=20,verbose_name= 'CNPJ')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     is_inactive = models.BooleanField(verbose_name='Inativo')
@@ -75,8 +75,8 @@ class Product(models.Model):
     title = models.CharField(max_length=100, verbose_name='Título')
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='products', verbose_name='Marca')
-    # patrimonio = models.ForeignKey(Prestador, on_delete=models.PROTECT,
-    #                          related_name='products', verbose_name='Prestador')
+    patrimonio = models.ForeignKey(Prestador, on_delete=models.PROTECT,
+                              related_name='products', verbose_name='Prestador')
     processor = models.CharField(max_length=10, verbose_name='Processador')
     memory_ram = models.CharField(max_length=10, verbose_name='Memoria Ram')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')

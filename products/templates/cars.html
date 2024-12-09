@@ -1,4 +1,4 @@
-{% block content %}
+<!-- {% block content %}
   <style>
     .car-grid {
       display: grid;
@@ -89,24 +89,28 @@
     button[type="submit"]:hover {
         background-color: #108eb8;
     }
-  </style>
-
-  <form method="GET" action="{% url 'cars_list' %}">
-    <input type="text" name="search" placeholder="Buscar carro...">
-    <button type="submit">Buscar</button>
-  </form>
-
-  <div class="car-grid">
-    {% if cars %}
-      {% for car in cars %}
-        <div class="car-card">
-          <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}">
-          <h2>{{ car.brand }} {{ car.model }}</h2>
-          <p>{{ car.factory_year }} - R$ {{ car.value }}</p>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p class="no-results">Nenhum carro encontrado.</p>
-    {% endif %}
-  </div>
-{% endblock %}
+  </style> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+</head>
+<body>
+    <h1>Lista de Produtos</h1>
+    <ul>
+        {% for produto in produtos %}
+        <li>
+            <h2>{{ produto.nome }}</h2>
+            <p>{{ produto.descricao }}</p>
+            {% if produto.imagem %}
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" width="200">
+            {% else %}
+                <p>Sem imagem disponível</p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
