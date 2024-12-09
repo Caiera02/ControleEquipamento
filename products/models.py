@@ -76,7 +76,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='products', verbose_name='Marca')
     # patrimonio = models.ForeignKey(Prestador, on_delete=models.PROTECT,
-                              related_name='products', verbose_name='Prestador')
+    #                          related_name='products', verbose_name='Prestador')
     processor = models.CharField(max_length=10, verbose_name='Processador')
     memory_ram = models.CharField(max_length=10, verbose_name='Memoria Ram')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')
