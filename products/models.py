@@ -149,6 +149,10 @@ class Controle(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='controls', verbose_name='Departamento')
+    
+    img = models.ImageField(upload_to='products/',blank=True, null=True)
+    img1 = models.ImageField(upload_to='products/',blank=True, null=True)
+    img2 = models.ImageField(upload_to='products/',blank=True, null=True)
 
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     is_inactive = models.BooleanField(verbose_name='Inativo')
