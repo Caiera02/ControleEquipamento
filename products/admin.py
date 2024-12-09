@@ -4,7 +4,7 @@ from django.contrib import admin
 from openpyxl import Workbook
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos
+from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos,Prestador
 
 #Funcionarios
 @admin.register(Cooperado)
@@ -12,6 +12,10 @@ class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
 
+@admin.register(Prestador)
+class PrestadorAdmin(admin.ModelAdmin):
+    list_display = ('title','is_active','is_inactive',)
+    search_fields = ('title' ,)
 
 #Marca
 @admin.register(Brand)

@@ -19,6 +19,24 @@ class Cooperado(models.Model):
 
     def __str__(self):
         return self.name
+    
+#Prestadores de serviço    
+class Prestador(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Nome')
+    mat= models.IntegerField( verbose_name= 'CNPJ')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
+    is_active = models.BooleanField(default=True, verbose_name='Ativo')
+    is_inactive = models.BooleanField(verbose_name='Inativo')
+    description = models.TextField(null=True, blank=True, verbose_name='Descrição')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+    
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Prestador'
+
+    def __str__(self):
+        return self.title
 
 #Marca
 class Brand(models.Model):
@@ -57,6 +75,8 @@ class Product(models.Model):
     title = models.CharField(max_length=100, verbose_name='Título')
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='products', verbose_name='Marca')
+    # patrimonio = models.ForeignKey(Prestador, on_delete=models.PROTECT,
+                              related_name='products', verbose_name='Prestador')
     processor = models.CharField(max_length=10, verbose_name='Processador')
     memory_ram = models.CharField(max_length=10, verbose_name='Memoria Ram')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')
@@ -150,9 +170,9 @@ class Controle(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='controls', verbose_name='Departamento')
     
-    img = models.ImageField(upload_to='products/',blank=True, null=True)
-    img1 = models.ImageField(upload_to='products/',blank=True, null=True)
-    img2 = models.ImageField(upload_to='products/',blank=True, null=True)
+    img = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 1')
+    img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 3')
+    img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
 
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     is_inactive = models.BooleanField(verbose_name='Inativo')
