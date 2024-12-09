@@ -94,14 +94,13 @@ class BranchAdmin(ImportExportModelAdmin):
 #Controles de de notebooks e celular
 @admin.register(Controle)
 class ControleAdmin(admin.ModelAdmin):
-    list_display = ('name','laptop','phones','branch','delivery','description','created_at',)
+    list_display = ('name','laptop','phones','branch', 'is_active', 'is_inactive','delivery','description','created_at',)
     
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title',]
     list_filter = ('name','category',)
 
     #importando para excel
-    
     def export_controles_to_excel(request,self,queryset):
     # Cria o workbook e a planilha
         workbook = Workbook()
