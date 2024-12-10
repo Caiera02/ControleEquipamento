@@ -171,8 +171,8 @@ class Controle(models.Model):
                                  related_name='controls', verbose_name='Departamento')
     
     img = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 1')
-    img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 3')
-    img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
+    # img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 2')
+    # img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
 
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     is_inactive = models.BooleanField(verbose_name='Inativo')

@@ -151,6 +151,8 @@ JAZZMIN_SETTINGS = {
         'auth.user': 'fas fa-user',
         'auth.Group': 'fas fa-users',
         'products.Controle': 'fas fa-laptop',
+        'products.Prestador': 'fas fa-gears',
+        'products.Perifericos': 'fa-solid fa-microchip',
         'products.Category': 'fas fa-object-group',
         'products.Brand': 'fas fa-copyright',
         'products.Branch': 'fas fa-flag-usa',
@@ -257,4 +259,4 @@ STATIC_ROOT = Path(BASE_DIR / 'static')
 MEDIA_ROOT = Path(BASE_DIR / 'media')
 
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
