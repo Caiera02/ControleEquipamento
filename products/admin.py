@@ -11,7 +11,8 @@ from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,P
 class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
-
+    
+#Prestador
 @admin.register(Prestador)
 class PrestadorAdmin(admin.ModelAdmin):
     list_display = ('title','is_active','is_inactive',)
@@ -63,11 +64,49 @@ class ProductResource(resources.ModelResource):
 
 #Maquina, Celular etc
 @admin.register(Product)
-class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
-    resource_classes = [ProductResource]
-    list_display = ('title', 'brand', 'category','processor','memory_ram','storage','description',)
+# class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+class ProductAdmin(admin.ModelAdmin):
+    # resource_classes = [ProductResource]
+    list_display = ('title', 'brand','category','processor','memory_ram','storage','description',)
     search_fields = ('title', 'brand__name', 'category__name',)
     list_filter = ('is_active', 'brand', 'category')
+    
+    #importando para excel
+    def export_product_to_excel(request,self,queryset):
+    # Cria o workbook e a planilha
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Computadores"
+
+        # Adiciona o cabeçalho
+        headers = ['title', 'brand','category','processor','memory_ram','storage','description',]
+        worksheet.append(headers)
+
+        # Recupera os dados do modelo e preenche a planilha
+        computer = Product.objects.all() #Busca em Controle todos o objetos
+        for computers in computer: #Percorre os objetos
+            worksheet.append([
+                str (computers.title),
+                str (computers.brand),
+                str (computers.patrimonio),
+                str (computers.category),
+                str (computers.processor),
+                str (computers.memory_ram),
+                str (computers.storage),
+                str (computers.description),
+            #   controle.delivery.strftime("%Y-%m-%d"),
+            #   controle.delivery.strftime("%H:%M:%S"),
+            ])
+
+        # Configura a resposta HTTP para o download
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        response["Content-Disposition"] = "attachment; filename=Perifericos.xlsx"
+        workbook.save(response)
+        return response
+    
+    export_product_to_excel.short_description = 'Exportar para excel'
+    actions = [export_product_to_excel]
 
     def export_to_csv(self, request, queryset):
         response = HttpResponse(content_type='text/csv')
@@ -95,7 +134,7 @@ class BranchAdmin(ImportExportModelAdmin):
     list_display = ('name','created_at','updated_at',)
     search_fields = ('name',)
 
-#Controles de de notebooks e celular
+#Controles de notebooks e celular
 @admin.register(Controle)
 class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch', 'is_active', 'is_inactive','delivery','description','created_at',)
@@ -161,7 +200,41 @@ class PhoneAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
+#Perifericos
 @admin.register(Perifericos)
 class PerifeicosAdmin(admin.ModelAdmin):
     list_display = ('title','modelo','amount','brand','is_new','is_used',)
     search_fields = ('title',)
+    
+     #importando para excel
+    def export_periferico_to_excel(request,self,queryset):
+    # Cria o workbook e a planilha
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Perifericos"
+
+        # Adiciona o cabeçalho
+        headers = ['Nome', 'Modelo', 'Quantidade', 'Marca','Novo', ]
+        worksheet.append(headers)
+
+        # Recupera os dados do modelo e preenche a planilha
+        perifericos = Perifericos.objects.all() #Busca em Controle todos o objetos
+        for periferico in perifericos: #Percorre os objetos
+            worksheet.append([
+                str (periferico.title),
+                str (periferico.modelo),
+                str (periferico.amount),
+                str (periferico.brand),
+            #   controle.delivery.strftime("%Y-%m-%d"),
+            #   controle.delivery.strftime("%H:%M:%S"),
+            ])
+
+        # Configura a resposta HTTP para o download
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        response["Content-Disposition"] = "attachment; filename=Perifericos.xlsx"
+        workbook.save(response)
+        return response
+    
+    export_periferico_to_excel.short_description = 'Exportar para excel'
+    actions = [export_periferico_to_excel]
