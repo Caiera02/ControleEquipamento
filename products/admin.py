@@ -4,6 +4,7 @@ from django.contrib import admin
 from openpyxl import Workbook
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+import re
 from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos,Prestador
 
 #Funcionarios
@@ -108,20 +109,20 @@ class ProductAdmin(admin.ModelAdmin):
     export_product_to_excel.short_description = 'Exportar para excel'
     actions = [export_product_to_excel]
 
-    def export_to_csv(self, request, queryset):
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="products.csv"'
-        writer = csv.writer(response)
-        writer.writerow(['título', 'marca', 'categoria', 'preço',
-                         'ativo', 'descrição', 'criado em', 'atualizado em'])
-        for product in queryset:
-            writer.writerow([product.title, product.brand.name, product.category.name,
-                             product.price, product.is_active, product.description,
-                             product.created_at, product.updated_at])
-        return response
+    # def export_to_csv(self, request, queryset):
+    #     response = HttpResponse(content_type='text/csv')
+    #     response['Content-Disposition'] = 'attachment; filename="products.csv"'
+    #     writer = csv.writer(response)
+    #     writer.writerow(['título', 'marca', 'categoria', 'preço',
+    #                      'ativo', 'descrição', 'criado em', 'atualizado em'])
+    #     for product in queryset:
+    #         writer.writerow([product.title, product.brand.name, product.category.name,
+    #                          product.price, product.is_active, product.description,
+    #                          product.created_at, product.updated_at])
+    #     return response
 
-    export_to_csv.short_description = 'Exportar para CSV'
-    actions = [export_to_csv]
+    # export_to_csv.short_description = 'Exportar para CSV'
+    # actions = [export_to_csv]
 
 # Filiais   
 class BranchResource(resources.ModelResource):
@@ -142,6 +143,13 @@ class ControleAdmin(admin.ModelAdmin):
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title',]
     list_filter = ('name','category',)
+        
+    # def display_image(self,obj):
+    #     if obj.img:
+    #         return format_html('<img src="{}" style="width: 50px; height: auto;" />', obj.img.url)
+    #     return "Sem imagem"
+    # display_image.short_description = "Imagem"
+
 
     #importando para excel
     def export_controles_to_excel(request,self,queryset):
@@ -151,17 +159,20 @@ class ControleAdmin(admin.ModelAdmin):
         worksheet.title = "Controle"
 
         # Adiciona o cabeçalho
-        headers = ['id','Nome', 'Computador', 'Telefone', 'Filial', 'Data da Entrega', 'Horario da Entrega',]
+        headers = ['Nome', 'Computador',' Departamento' ,'Telefone','Ativo','Inativo', 'Filial', 'Data da Entrega', 'Horario da Entrega',]
         worksheet.append(headers)
 
         # Recupera os dados do modelo e preenche a planilha
         controles = Controle.objects.all() #Busca em Controle todos o objetos
         for controle in controles: #Percorre os objetos
             worksheet.append([
-                controle.id,
+                # controle.id,
                 str (controle.name),
                 str (controle.laptop),
+                str (controle.category),
                 str (controle.phones),
+                controle.is_active,
+                controle.is_inactive,
                 str (controle.branch),
               controle.delivery.strftime("%Y-%m-%d"),
               controle.delivery.strftime("%H:%M:%S"),
@@ -180,25 +191,69 @@ class ControleAdmin(admin.ModelAdmin):
 #Celulares
 @admin.register(Phone)
 class PhoneAdmin(admin.ModelAdmin):
-    list_display = ('title','category','brand','imei',)
+    list_display = ('title','number','category','brand','imei',)
     search_fields = ('title',)
     list_filter = ('is_active', 'brand', 'category')
 
-    def export_to_csv(self, request, queryset):
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="products.csv"'
+    def export_phone_to_excel(request,self,queryset):
+    # Cria o workbook e a planilha
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Controle"
 
-        writer = csv.writer(response)
-        writer.writerow(['nome', 'marca', 'categoria', 'preço',
-                         'ativo', 'descrição', 'criado em', 'atualizado em'])
-        for product in queryset:
-            writer.writerow([product.title, product.brand.name, product.imei.name,
-                             product.price, product.is_active, product.description,
-                             product.created_at, product.updated_at])
+        # Adiciona o cabeçalho
+        headers = ['Nome','numero', 'Marca','Armazenamento','Imei','Ativo/Inativo', 'Filial', 'Data da Entrega', 'Horario da Entrega',]
+        worksheet.append(headers)
+
+        # Recupera os dados do modelo e preenche a planilha
+        phones = Phone.objects.all() #Busca em Controle todos o objetos
+        for phone in phones: #Percorre os objetos
+  
+            #Transforma a palavra True em Ativo, false/inativo
+            if phone.is_active == True:
+                isActive = 'Ativo'
+            else:
+                isActive ='Inativo'
+                
+            #formatted_active = f"{str(phone.is_active)['Ativo']}"
+            formatted_phone = f"({str(phone.number)[:2]}) {str(phone.number)[2:7]}-{str(phone.number)[7:]}" # Formata como (xx) xxxxx-xxxx
+
+            worksheet.append([
+                # controle.id,
+                str (phone.title),
+                formatted_phone,
+                str(phone.brand),
+                str (phone.storage),
+                str (phone.imei),
+                isActive,
+                #formatted_active,
+            ])
+
+        # Configura a resposta HTTP para o download
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        response["Content-Disposition"] = "attachment; filename=Celular.xlsx"
+        workbook.save(response)
         return response
+    
+    export_phone_to_excel.short_description = 'Exportar para excel'
+    actions = [export_phone_to_excel]
+    
+    # def export_to_csv(self, request, queryset):
+    #     response = HttpResponse(content_type='text/csv')
+    #     response['Content-Disposition'] = 'attachment; filename="products.csv"'
 
-    export_to_csv.short_description = 'Exportar para CSV'
-    actions = [export_to_csv]
+    #     writer = csv.writer(response)
+    #     writer.writerow(['nome', 'marca', 'categoria', 'preço',
+    #                      'ativo', 'descrição', 'criado em', 'atualizado em'])
+    #     for product in queryset:
+    #         writer.writerow([product.title, product.brand.name, product.imei.name,
+    #                          product.price, product.is_active, product.description,
+    #                          product.created_at, product.updated_at])
+    #     return response
+
+    # export_to_csv.short_description = 'Exportar para CSV'
+    # actions = [export_to_csv]
 
 #Perifericos
 @admin.register(Perifericos)

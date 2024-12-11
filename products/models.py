@@ -135,6 +135,7 @@ class Phone (models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='phon', verbose_name='Marca')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')
+    number = models.IntegerField(default="0",verbose_name='Telefone')
     imei= models.CharField(max_length=30,verbose_name='IMEI')
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='phone', verbose_name='Departamento')
@@ -154,7 +155,7 @@ class Phone (models.Model):
     def __str__(self):
         return self.title
 
-#Controle do notebooks pelo nome do usuario
+#Controle do notebooks,celulares pelo nome do usuario
 class Controle(models.Model):
     name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Nome')
@@ -171,7 +172,7 @@ class Controle(models.Model):
                                  related_name='controls', verbose_name='Departamento')
     
     img = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 1')
-    # img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 2')
+    img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 2')
     # img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
 
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
