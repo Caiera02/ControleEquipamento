@@ -8,7 +8,7 @@ class Cooperado(models.Model):
     cpf = models.IntegerField( verbose_name= 'CPF')
     rg = models.IntegerField(  verbose_name='RG')
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
-    is_inactive = models.BooleanField(verbose_name='Inativo')
+    is_inactive = models.BooleanField(default=False,verbose_name='Inativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
@@ -68,7 +68,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 # Maquinas
 class Product(models.Model):
     #name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,related_name='products', verbose_name='Nome')
@@ -76,13 +75,13 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT,
                               related_name='products', verbose_name='Marca')
     patrimonio = models.ForeignKey(Prestador, on_delete=models.PROTECT,
-                              related_name='products', verbose_name='Prestador')
+                              related_name='products', default=0, verbose_name='Prestador')
     processor = models.CharField(max_length=10, verbose_name='Processador')
     memory_ram = models.CharField(max_length=10, verbose_name='Memoria Ram')
     storage = models.CharField(max_length=10, verbose_name='Armazenamento')
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='products', verbose_name='Departamento')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
+    price = models.DecimalField(max_digits=10, decimal_places=2,default= 0, verbose_name='Preço')
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
@@ -97,7 +96,6 @@ class Product(models.Model):
     
 #Perifericos
 class Perifericos(models.Model):
-    
     title = models.CharField(max_length=100,verbose_name='Titulo')
     modelo = models.CharField(max_length=100,verbose_name='Modelo')
     amount = models.CharField(max_length=100,verbose_name='Quantidade')
@@ -115,7 +113,6 @@ class Perifericos(models.Model):
     def __str__(self):
         return self.title
     
-
 #Filiais
 class Branch(models.Model):
     name = models.TextField(null=True, blank=True, verbose_name='Nome')
@@ -176,7 +173,7 @@ class Controle(models.Model):
     # img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
 
     is_active = models.BooleanField(default=True, verbose_name='Ativo')
-    is_inactive = models.BooleanField(verbose_name='Inativo')
+    is_inactive = models.BooleanField(default=False,verbose_name='Inativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')

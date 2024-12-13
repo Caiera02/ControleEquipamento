@@ -2,14 +2,24 @@ import csv
 from django.http import HttpResponse
 from django.contrib import admin
 from openpyxl import Workbook
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 import re
 from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos,Prestador
 
+
 #Funcionarios
+class ProductResource(resources.ModelResource):
+    is_inactive = fields.Field(attribute='is_inactive', default=False)
+    
+    class Meta:
+        model = Cooperado
+
+#Maquina, Celular etc
 @admin.register(Cooperado)
-class CooperadoAdmin(admin.ModelAdmin):
+class CooperadoAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+# @admin.register(Cooperado)
+# class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
     
@@ -65,8 +75,8 @@ class ProductResource(resources.ModelResource):
 
 #Maquina, Celular etc
 @admin.register(Product)
-# class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+#class ProductAdmin(admin.ModelAdmin):
     # resource_classes = [ProductResource]
     list_display = ('title', 'brand','category','processor','memory_ram','storage','description',)
     search_fields = ('title', 'brand__name', 'category__name',)
@@ -135,9 +145,17 @@ class BranchAdmin(ImportExportModelAdmin):
     list_display = ('name','created_at','updated_at',)
     search_fields = ('name',)
 
-#Controles de notebooks e celular
+class ProductResource(resources.ModelResource):
+    class Meta:
+        model = Controle
+
+#Maquina, Celular etc
 @admin.register(Controle)
-class ControleAdmin(admin.ModelAdmin):
+class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+
+#Controles de notebooks e celular
+# @admin.register(Controle)
+# class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch', 'is_active', 'is_inactive','delivery','description','created_at',)
     
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
