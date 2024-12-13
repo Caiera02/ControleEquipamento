@@ -160,6 +160,10 @@ JAZZMIN_SETTINGS = {
         'products.Cooperado': 'fas fa-users',
         'products.Phone': 'fas fa-mobile',
         'products.Product': 'fas fa-box',
+        'tickets.ticket':'fas fa-list',
+        'tickets.ServiceChannel':'fas fa-phone',
+        'tickets.Motive':'fas fa-triangle-exclamation',
+        'tickets.status':'fas fa-progress',
     },
 
     # Welcome text on the login screen
