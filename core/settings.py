@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     
     'products',
     #'brilhaMais',
+    'tickets',
     'import_export',
 ]
 
