@@ -4,22 +4,21 @@ from django.contrib import admin
 from openpyxl import Workbook
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
-import re
 from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos,Prestador
 
 
 #Funcionarios
 class ProductResource(resources.ModelResource):
     is_inactive = fields.Field(attribute='is_inactive', default=False)
-    
     class Meta:
         model = Cooperado
 
 #Maquina, Celular etc
 @admin.register(Cooperado)
-class CooperadoAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+#Quando precisar fazer a exportação ou importa usar o modo abaixo
+#class CooperadoAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 # @admin.register(Cooperado)
-# class CooperadoAdmin(admin.ModelAdmin):
+class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
     
