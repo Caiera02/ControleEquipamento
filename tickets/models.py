@@ -48,6 +48,7 @@ class Ticket (models.Model):
     Description=models.TextField(verbose_name='Descrição')
     status=models.ForeignKey(Status, on_delete= models.PROTECT,
                              related_name='filial',verbose_name='Status')
+    #finish=models.DateTimeField(auto_now_add=True, verbose_name='Finalizado')
     
     class Meta:
         ordering = ['name']
