@@ -41,7 +41,7 @@ class TicketAdmin(admin.ModelAdmin):
                 # controle.id,
                 str (ticket.name),
                 str (ticket.branch),
-                ticket.openTicket.strftime("%y-%m-%d %H:%M:%S"),
+                ticket.openTicket.strftime("%y-%m-%d"),
                 ticket.openTicket.strftime("%H:%M:%S"),
                 ticket.assumid.strftime("%y-%m-%d %H:%M:%S"),
                 str (ticket.responseTIcket),
