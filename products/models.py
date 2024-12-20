@@ -154,18 +154,18 @@ class Phone (models.Model):
 
 #Controle do notebooks,celulares pelo nome do usuario
 class Controle(models.Model):
-    name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
+    name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,blank=True, null=True,
                             related_name='controls', verbose_name='Nome')
-    branch = models.ForeignKey(Branch, on_delete= models.PROTECT,
+    branch = models.ForeignKey(Branch, on_delete= models.PROTECT, blank=True, null=True,
                             related_name='controls', verbose_name='Filial')
-    phones = models.ForeignKey(Phone,on_delete= models.PROTECT,
+    phones = models.ForeignKey(Phone,on_delete= models.PROTECT,blank=True, null=True,
                             related_name='controls', verbose_name='Celular' )
-    laptop = models.ForeignKey(Product, on_delete=models.PROTECT,
+    laptop = models.ForeignKey(Product, on_delete=models.PROTECT,blank=True, null=True,
                                related_name='controls',verbose_name='Notebook')
 
     delivery = models.DateTimeField(auto_now_add=True, verbose_name='Entregue em')
 
-    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,blank=True, null=True,
                                  related_name='controls', verbose_name='Departamento')
     
     img = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 1')

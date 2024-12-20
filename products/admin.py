@@ -16,9 +16,9 @@ class ProductResource(resources.ModelResource):
 #Maquina, Celular etc
 @admin.register(Cooperado)
 #Quando precisar fazer a exportação ou importa usar o modo abaixo
-#class CooperadoAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
-# @admin.register(Cooperado)
-class CooperadoAdmin(admin.ModelAdmin):
+class CooperadoAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
+#@admin.register(Cooperado)
+#class CooperadoAdmin(admin.ModelAdmin):
     list_display = ('name','mat','cpf','rg','is_active','is_inactive',)
     search_fields = ('name' ,)
     
@@ -144,30 +144,20 @@ class BranchAdmin(ImportExportModelAdmin):
     list_display = ('name','created_at','updated_at',)
     search_fields = ('name',)
 
+#Maquina, Celular etc
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Controle
 
-#Maquina, Celular etc
 @admin.register(Controle)
 class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 
 #Controles de notebooks e celular
-# @admin.register(Controle)
-# class ControleAdmin(admin.ModelAdmin):
     list_display = ('name','laptop','phones','branch', 'is_active', 'is_inactive','delivery','description','created_at',)
-    
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title',]
     list_filter = ('name','category',)
-        
-    # def display_image(self,obj):
-    #     if obj.img:
-    #         return format_html('<img src="{}" style="width: 50px; height: auto;" />', obj.img.url)
-    #     return "Sem imagem"
-    # display_image.short_description = "Imagem"
-
-
+    
     #importando para excel
     def export_controles_to_excel(request,self,queryset):
     # Cria o workbook e a planilha
@@ -206,8 +196,12 @@ class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para u
     actions = [export_controles_to_excel]
     
 #Celulares
+class ProductResource(resources.ModelResource):
+    class Meta:
+        model = Phone
+
 @admin.register(Phone)
-class PhoneAdmin(admin.ModelAdmin):
+class PhoneAdmin(ImportExportModelAdmin):
     list_display = ('title','number','category','brand','imei',)
     search_fields = ('title',)
     list_filter = ('is_active', 'brand', 'category')
