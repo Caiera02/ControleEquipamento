@@ -5,7 +5,7 @@ from openpyxl import Workbook
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from .models import Cooperado,Brand, Category, Product, Branch, Controle,Phone,Perifericos,Prestador
-
+from datetime import date
 
 #Funcionarios
 class ProductResource(resources.ModelResource):
@@ -166,20 +166,23 @@ class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para u
         worksheet.title = "Controle"
 
         # Adiciona o cabeçalho
-        headers = ['Nome', 'Computador',' Departamento' ,'Telefone','Ativo','Inativo', 'Filial', 'Data da Entrega', 'Horario da Entrega',]
+        headers = ['Nome', 'Computador',' Departamento' ,'Telefone','Ativo','Filial', 'Data da Entrega', 'Horario da Entrega','Description',]
         worksheet.append(headers)
 
         # Recupera os dados do modelo e preenche a planilha
         controles = Controle.objects.all() #Busca em Controle todos o objetos
+        data_atual = date.today()
         for controle in controles: #Percorre os objetos
+
+           
+                
             worksheet.append([
                 # controle.id,
                 str (controle.name),
                 str (controle.laptop),
                 str (controle.category),
                 str (controle.phones),
-                controle.is_active,
-                controle.is_inactive,
+                str(controle.is_active),
                 str (controle.branch),
               controle.delivery.strftime("%Y-%m-%d"),
               controle.delivery.strftime("%H:%M:%S"),
@@ -188,7 +191,7 @@ class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para u
         # Configura a resposta HTTP para o download
         response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-        response["Content-Disposition"] = "attachment; filename=controles.xlsx"
+        response["Content-Disposition"] = f"attachment; filename=Controles-{data_atual}.xlsx"
         workbook.save(response)
         return response
     
