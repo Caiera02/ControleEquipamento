@@ -21,6 +21,9 @@ class Motive(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def upper_name(self):
+        return self.title.upper()
 
 class Status (models.Model):
     title=models.CharField(max_length=30, verbose_name='Status')

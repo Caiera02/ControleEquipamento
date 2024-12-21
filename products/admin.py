@@ -31,9 +31,9 @@ class PrestadorAdmin(admin.ModelAdmin):
 #Marca
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_active', 'description', 'created_at', 'updated_at')
+    list_display = ('name', 'description', 'created_at', 'updated_at')
     search_fields = ('name',)
-    list_filter = ('is_active',)
+    # list_filter = ('is_active',)
 
     def export_to_csv(self, request, queryset):
         response = HttpResponse(content_type='text/csv')
@@ -68,11 +68,11 @@ class DepartamentoAdmin(admin.ModelAdmin):
     export_to_csv.short_description = 'Exportar para CSV'
     actions = [export_to_csv]
 
+#Maquina, Celular etc
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
 
-#Maquina, Celular etc
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 #class ProductAdmin(admin.ModelAdmin):
@@ -149,11 +149,11 @@ class ProductResource(resources.ModelResource):
     class Meta:
         model = Controle
 
+#Controles de notebooks e celular
 @admin.register(Controle)
 class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 
-#Controles de notebooks e celular
-    list_display = ('name','laptop','phones','branch', 'is_active', 'is_inactive','delivery','description','created_at',)
+    list_display = ('name','laptop','phones','branch', 'img','is_active', 'is_inactive','delivery','description','created_at',)
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title',]
     list_filter = ('name','category',)

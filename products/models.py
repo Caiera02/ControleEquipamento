@@ -41,7 +41,7 @@ class Prestador(models.Model):
 #Marca
 class Brand(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nome')
-    is_active = models.BooleanField(default=True, verbose_name='Ativo')
+    #is_active = models.BooleanField(default=True, verbose_name='Ativo')
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
@@ -154,21 +154,21 @@ class Phone (models.Model):
 
 #Controle do notebooks,celulares pelo nome do usuario
 class Controle(models.Model):
-    name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,blank=True, null=True,
+    name= models.ForeignKey(Cooperado, on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Nome')
-    branch = models.ForeignKey(Branch, on_delete= models.PROTECT, blank=True, null=True,
+    branch = models.ForeignKey(Branch, on_delete= models.PROTECT, 
                             related_name='controls', verbose_name='Filial')
-    phones = models.ForeignKey(Phone,on_delete= models.PROTECT,blank=True, null=True,
+    phones = models.ForeignKey(Phone,on_delete= models.PROTECT,
                             related_name='controls', verbose_name='Celular' )
-    laptop = models.ForeignKey(Product, on_delete=models.PROTECT,blank=True, null=True,
+    laptop = models.ForeignKey(Product, on_delete=models.PROTECT,
                                related_name='controls',verbose_name='Notebook')
 
     delivery = models.DateTimeField(auto_now_add=True, verbose_name='Entregue em')
 
-    category = models.ForeignKey(Category, on_delete=models.PROTECT,blank=True, null=True,
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='controls', verbose_name='Departamento')
     
-    img = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 1')
+    img = models.ImageField(upload_to='products/',verbose_name='Imagem 1')
     img1 = models.ImageField(upload_to='products/',blank=True, null=True, verbose_name='Imagem 2')
     # img2 = models.ImageField(upload_to='products/',blank=True, null=True,verbose_name='Imagem 3')
 

@@ -1,4 +1,6 @@
-<!-- {% block content %}
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% block content %}
   <style>
     .car-grid {
       display: grid;
@@ -89,40 +91,30 @@
     button[type="submit"]:hover {
         background-color: #108eb8;
     }
-  </style> -->
-<!DOCTYPE html>
-<html lang="en">
+  </style>
 
-C:\Users\Caio\Documents\Caiera\ControleEquipamento\media
+  <form method="GET" action="{% url 'cars_list' %}">
+    <input type="text" name="search" placeholder="Buscar carro...">
+    <button type="submit">Buscar</button>
+  </form>
 
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produtos</title>
-</head>
-{%block content%}
-
-<body>
-  <h1> Teste</h1>
-  {{ products}}
-</body>
-{%endblock%}
-<!-- <body>
-    <h1>Lista de Produtos</h1>
-    <ul>
-        {% for produto in produtos %}
-        <li>
-            <h2>{{ produto.nome }}</h2>
-            <p>{{ produto.descricao }}</p>
-            {% if produto.imagem %}
-                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" width="200">
-            {% else %}
-                <p>Sem imagem disponível</p>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-</body> -->
-
-</html>
+  <div class="car-grid">
+    {% if control %}
+      {% for controle in control %}
+        <div class="car-card">
+            <img src="{{ controle.img.url }}" alt="{{ controle.branch }} - {{ controle.phones }}">
+            <h2>{{ controle.name }}</h2>
+            <p>{{ controle.phones }}/{{ controle.branch }} </p>
+          {% comment %} <p>{{ car.factory_year }} - R$ {{ car.value }}</p> {% endcomment %}
+        </div>
+        {% comment %} <div class="car-card">
+            <img src="{{ controle.img1.url }}" alt="{{ controle.branch }} - {{ controle.phones }}">
+            <h2>{{ controle.name }}</h2>
+            <p>{{ controle.phones }}/{{ controle.branch }} </p>
+        </div> {% endcomment %}
+      {% endfor %}
+    {% else %}
+      <p class="no-results">Nenhum carro encontrado.</p>
+    {% endif %}
+  </div>
+{% endblock %}

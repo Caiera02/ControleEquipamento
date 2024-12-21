@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from products.models import Controle
 
-def cars_view(request):
+def img_view(request):
+    controles = Controle.objects.all()
+    print(controles)
+
     return render(
         request,
-        'cars.html',
-        {'products' :{'model' : 'Astra 2.0'}}
+        # 'control.html',
+        'teste.html',
+        {'control': controles}
         )
-

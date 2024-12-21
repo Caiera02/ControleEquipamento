@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>Meu notebook</title>
+  </head>
+  {% block content %}
+    <body> 
+      <h1>Img Notebook</h1>
+      {% comment %} <a href="http://127.0.0.1:8000/media/products/Corolla_Cross_2024.jpeg">Clique aqui</a> {% endcomment %}
+      {% for controle in control %}
+        <h3>{{controle.name}} / {{controle.branch}} / {{controle.laptop}}/ {{controle.phones}}</h3>
+      {% endfor %}
+    </body>
+  {% endblock %}
+</html>
