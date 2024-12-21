@@ -3,6 +3,7 @@ from .models import ServiceChannel,Motive,Status,Ticket
 from django.http import HttpResponse
 from openpyxl import Workbook
 import csv
+from datetime import datetime
 # Register your models here.
 
 @admin.register(ServiceChannel)
@@ -36,6 +37,9 @@ class TicketAdmin(admin.ModelAdmin):
 
         # Recupera os dados do modelo e preenche a planilha
         Tickets = Ticket.objects.all() #Busca em Controle todos o objetos
+        data_atual = datetime.today()
+        data = data_atual.strftime("%y-%m-%d-%H:%M:%S")
+
         for ticket in Tickets: #Percorre os objetos
             worksheet.append([
                 # controle.id,
@@ -53,7 +57,7 @@ class TicketAdmin(admin.ModelAdmin):
         # Configura a resposta HTTP para o download
         response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-        response["Content-Disposition"] = "attachment; filename=Abertura_Ticket.xlsx"
+        response["Content-Disposition"] = f"attachment; filename= Abertura_Ticket-{data}.xlsx"
         workbook.save(response)
         return response
     
