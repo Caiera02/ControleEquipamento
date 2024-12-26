@@ -273,6 +273,7 @@ class PhoneAdmin(ImportExportModelAdmin):
 #Perifericos
 @admin.register(Perifericos)
 class PerifeicosAdmin(admin.ModelAdmin):
+
     list_display = ('title','modelo','amount','brand','is_new','is_used',)
     search_fields = ('title',)
     

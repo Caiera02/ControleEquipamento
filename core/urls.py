@@ -7,5 +7,5 @@ from products.views import img_view
 urlpatterns = [
     # path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
-    path('img/',img_view, name='cars_list'),
+    path('img/',img_view, name='controle_list'),
 ]+ static(settings.MEDIA_URL,document_root= settings.MEDIA_ROOT)
