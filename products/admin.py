@@ -207,8 +207,8 @@ class ProductResource(resources.ModelResource):
 @admin.register(Phone)
 class PhoneAdmin(ImportExportModelAdmin):
     list_display = ('title','number','category','brand','imei',)
-    search_fields = ('title',)
-    list_filter = ('is_active', 'brand', 'category')
+    search_fields = ('title','number',)
+    list_filter = ('is_active', 'brand', 'category','number')
 
     def export_phone_to_excel(request,self,queryset):
     # Cria o workbook e a planilha
