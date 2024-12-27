@@ -181,9 +181,10 @@ JAZZMIN_SETTINGS = {
 
         # external url that opens in a new window (Permissions can be added)
         {"name": "Visualizar", "url": "http://127.0.0.1:8000/img/?search=and", "new_window": True},
+        {"name": "Abrir chamado", "url": "http://127.0.0.1:8000/admin/tickets/ticket/add/", "new_window":True},
 
         # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
+        # {"model": "auth.User"},
 
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "books"},
