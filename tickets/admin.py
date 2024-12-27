@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import ServiceChannel,Motive,Status,Ticket
 from django.http import HttpResponse
 from openpyxl import Workbook
-import csv
 from datetime import datetime
 # Register your models here.
 
