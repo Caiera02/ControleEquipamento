@@ -185,8 +185,9 @@ class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para u
                 str (controle.phones),
                 str(controle.is_active),
                 str (controle.branch),
-              controle.delivery.strftime("%Y-%m-%d"),
+              controle.delivery.strftime("%d/%m/%Y"),
               controle.delivery.strftime("%H:%M:%S"),
+              str(controle.description)
             ])
 
         # Configura a resposta HTTP para o download
