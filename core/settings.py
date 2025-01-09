@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-knf(91&$v$*3^jcpat-z@&gp*ol#$ymt6he&9e9qv193qgrfdq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['caiera02.pythonanywhere.com']
 
 
 # Application definition
