@@ -128,6 +128,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIR = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -144,7 +148,7 @@ JAZZMIN_SETTINGS = {
     'site_brand': 'Controle de equipamento',
     
     # Logo to use for your site, must be present in static files, used for brand on top left
-    #"site_logo": "jazzmin/img/image.png",
+    "site_logo": "img/Design sem nome (1).svg",
     
     'icons': {
         'auth': 'fas fa-users-cog',
