@@ -220,38 +220,41 @@ class Controle(models.Model):
         return str(self.name)
     
     def save(self, *args, **kwargs):
-        # 1. Garante que o ID existe (salva primeiro se for novo)
-        if not self.id:
-            super().save(*args, **kwargs)
-
-        # 2. Define o conteúdo fixo do QR Code
-        # Substitua pelo seu domínio real ou IP do servidor
-        url_do_produto = f"/{self.id}/"
-
-        # 3. Configura e gera o QR Code
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-        qr.add_data(url_do_produto)
-        qr.make(fit=True)
-
-        # Cria a imagem a partir do objeto QR
-        img = qr.make_image(fill_color="black", back_color="white")
-        
-        # 4. Salva a imagem no campo ImageField sem causar loop infinito
-        buffer = BytesIO()
-        img.save(buffer, format='PNG')
-        fname = f'qr_code-{self.id}.png'
-        
-        # O 'save=False' no self.qr_code.save evita que o save() do model 
-        # seja chamado novamente em loop
-        self.qr_code.save(fname, File(buffer), save=False)
-        
-        # Salva o campo qr_code no banco
+        # 1. Primeiro passo: Salva os dados básicos para garantir que o objeto tem um ID
+        # Se não tiver ID, o super().save() cria um.
+        is_new = self._state.adding
         super().save(*args, **kwargs)
+
+        # 2. Se for um registro novo ou se o QR Code estiver vazio
+        if is_new or not self.qr_code:
+            # Importações internas para evitar erros no migrate
+            # Conteúdo do QR Code (Sempre use a URL completa se possível)
+            # Exemplo: https://caio12faculdade.pythonanywhere.com/controle/1/
+            link_fixo = f"https://caio12faculdade.pythonanywhere.com/controle/{self.id}/"
+
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(link_fixo)
+            qr.make(fit=True)
+
+            img_qr = qr.make_image(fill_color="black", back_color="white")
+            
+            buffer = BytesIO()
+            img_qr.save(buffer, format='PNG')
+            
+            # Define o nome do arquivo
+            filename = f'qr_code_{self.id}.png'
+            
+            # Salva o arquivo no campo ImageField
+            # save=False evita que entre em loop infinito chamando este save() de novo
+            self.qr_code.save(filename, File(buffer), save=False)
+            
+            # Atualiza apenas a coluna do QR Code no banco de dados
+            Controle.objects.filter(id=self.id).update(qr_code=self.qr_code)
     
     # def __str__(self):
     #     return self.name
