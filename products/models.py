@@ -210,7 +210,7 @@ class Controle(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
-    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
+    qr_code = models.ImageField(upload_to='qr_code/', blank=True, null=True)
 
     class Meta:
         ordering = ['name']
@@ -226,7 +226,7 @@ class Controle(models.Model):
 
         # 2. Define o conteúdo fixo do QR Code
         # Substitua pelo seu domínio real ou IP do servidor
-        url_do_produto = f"192.168.15.20:8000/{self.id}/"
+        url_do_produto = f"/{self.id}/"
 
         # 3. Configura e gera o QR Code
         qr = qrcode.QRCode(
