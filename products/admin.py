@@ -77,7 +77,7 @@ class ProductResource(resources.ModelResource):
 class ProductAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 #class ProductAdmin(admin.ModelAdmin):
     # resource_classes = [ProductResource]
-    list_display = ('title', 'brand','category','processor','memory_ram','storage','description',)
+    list_display = ('title', 'brand','category','processor','memory_ram','storage','description','qr_code')
     search_fields = ('title', 'brand__name', 'category__name',)
     list_filter = ('is_active', 'brand', 'category')
     
@@ -153,11 +153,15 @@ class ProductResource(resources.ModelResource):
 @admin.register(Controle)
 class ControleAdmin(ImportExportModelAdmin):#ImportExportModelAdmin serve para usar o import/export dentro Admin
 
-    list_display = ('name','laptop','phones','branch', 'img','is_active', 'is_inactive','delivery','description','created_at',)
+    list_display = ('name','laptop','phones','branch', 'img','is_active', 'is_inactive','delivery','description','created_at','qr_code',)
     #Aqui a busca é feito através do campo estrangeiro, primeiro o campo do Model__ depois o campo que quero buscar no outro Model
     search_fields= ['name__name','laptop__title',]
     
     list_filter = ('name','category',)
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(is_active=True)
     
     #importando para excel
     def export_controles_to_excel(request,self,queryset):

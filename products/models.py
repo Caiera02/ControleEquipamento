@@ -1,5 +1,8 @@
 
 from django.db import models
+import qrcode
+from io import BytesIO
+from django.core.files import File
 
 #Funcionarios    
 class Cooperado(models.Model):
@@ -86,14 +89,44 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 
-    class Meta:
-        ordering = ['title']
-        verbose_name = 'Produto'
+    def save(self, *args, **kwargs):
+        # 1. Garante que o ID existe (salva primeiro se for novo)
+        if not self.id:
+            super().save(*args, **kwargs)
 
+        # 2. Define o conteúdo fixo do QR Code
+        # Substitua pelo seu domínio real ou IP do servidor
+        url_do_produto = f"192.168.15.20:8000/{self.id}/"
+
+        # 3. Configura e gera o QR Code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(url_do_produto)
+        qr.make(fit=True)
+
+        # Cria a imagem a partir do objeto QR
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        # 4. Salva a imagem no campo ImageField sem causar loop infinito
+        buffer = BytesIO()
+        img.save(buffer, format='PNG')
+        fname = f'qr_code-{self.id}.png'
+        
+        # O 'save=False' no self.qr_code.save evita que o save() do model 
+        # seja chamado novamente em loop
+        self.qr_code.save(fname, File(buffer), save=False)
+        
+        # Salva o campo qr_code no banco
+        super().save(*args, **kwargs)
+    
     def __str__(self):
         return self.title
-    
 #Perifericos
 class Perifericos(models.Model):
     title = models.CharField(max_length=100,verbose_name='Titulo')
@@ -177,6 +210,7 @@ class Controle(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Descrição')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 
     class Meta:
         ordering = ['name']
@@ -184,3 +218,40 @@ class Controle(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+    def save(self, *args, **kwargs):
+        # 1. Garante que o ID existe (salva primeiro se for novo)
+        if not self.id:
+            super().save(*args, **kwargs)
+
+        # 2. Define o conteúdo fixo do QR Code
+        # Substitua pelo seu domínio real ou IP do servidor
+        url_do_produto = f"192.168.15.20:8000/{self.id}/"
+
+        # 3. Configura e gera o QR Code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(url_do_produto)
+        qr.make(fit=True)
+
+        # Cria a imagem a partir do objeto QR
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        # 4. Salva a imagem no campo ImageField sem causar loop infinito
+        buffer = BytesIO()
+        img.save(buffer, format='PNG')
+        fname = f'qr_code-{self.id}.png'
+        
+        # O 'save=False' no self.qr_code.save evita que o save() do model 
+        # seja chamado novamente em loop
+        self.qr_code.save(fname, File(buffer), save=False)
+        
+        # Salva o campo qr_code no banco
+        super().save(*args, **kwargs)
+    
+    # def __str__(self):
+    #     return self.name
